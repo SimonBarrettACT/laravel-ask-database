@@ -32,6 +32,9 @@ class Oracle
             ->trim('"');
     }
 
+    /**
+     * @throws PotentiallyUnsafeQuery
+     */
     public function getQuery(string $question): string
     {
         $prompt = $this->buildPrompt($question);
@@ -46,10 +49,10 @@ class Oracle
         return $query;
     }
 
-    protected function queryOpenAi(string $prompt, string $stop, float $temperature = 0.0)
+    protected function queryOpenAi(string $prompt, string $stop, float $temperature = 0.0): string
     {
         $completions = $this->client->completions()->create([
-            'model' => 'text-davinci-003',
+            'model' => config('ask-database.model'),
             'prompt' => $prompt,
             'temperature' => $temperature,
             'max_tokens' => 100,
@@ -91,6 +94,7 @@ class Oracle
 
     /**
      * @throws PotentiallyUnsafeQuery
+     * @throws \Throwable
      */
     protected function ensureQueryIsSafe(string $query): void
     {

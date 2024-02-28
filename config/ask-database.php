@@ -9,6 +9,11 @@ return [
     'connection' => env('ASK_DATABASE_DB_CONNECTION', 'mysql'),
 
     /**
+     * The OpenAI model to be used.
+     */
+    'model' => env('ASK_DATABASE_MODEL', 'gpt-3.5-turbo-0125'),
+
+    /**
      * Strict mode will throw an exception when the query
      * would perform a write/alter operation on the database.
      *
